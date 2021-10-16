@@ -1,21 +1,7 @@
 import math
 # Calculating linear correlation, r
 
-plots = [(0,0.907),
-(0,0.896),
-(1,0.879),
-(2,0.839),
-(2,0.848),
-(2,0.832),
-(3,0.802),
-(3,0.811),
-(4,0.781),
-(5,0.757),
-(5,0.753),
-(6,0.723),
-(6,0.721),
-(7,0.701),
-(7,0.698)]
+plots = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]
 n = len(plots)
 x = []
 y = []
@@ -26,7 +12,7 @@ y_distance = []
 for point in plots:
     x.append(float(point[0]))
     y.append(float(point[1]))
-# Functions contained below, in order: mean, distance from mean, sample variance s2, linear relation coefficient r
+# Functions contained below, in order: mean, distance from mean, sample variance s2, linear correlation coefficient r
 def mean(x_or_y):
     return sum(x_or_y) / n
 def distance(x_or_y):
@@ -49,7 +35,7 @@ def sample_variance(x_or_y):
             squaringy.append(val**2)
         s2 = sum(squaringy) / (n - 1)
         return s2
-def linear_relation():
+def linear_correlation():
     # Storing distance from mean divided by sample standard deviation
     dividingx = []
     dividingy = []
@@ -73,7 +59,7 @@ x_variance = sample_variance(x)
 y_variance = sample_variance(y)
 s_x = math.sqrt(x_variance)
 s_y = math.sqrt(y_variance)
-r = linear_relation()
+r = linear_correlation()
 
 print(f"r is:", {r}")
 print(f"Mean of x: {x_mean}")
