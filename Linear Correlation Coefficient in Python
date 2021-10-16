@@ -75,7 +75,7 @@ s_x = math.sqrt(x_variance)
 s_y = math.sqrt(y_variance)
 r = linear_relation()
 
-print("r is:", r)
+print(f"r is:", {r}")
 print(f"Mean of x: {x_mean}")
 print(f"Mean of y: {y_mean}")
 print(f"Sample standard deviation of x: {s_x}")
