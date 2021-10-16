@@ -1,0 +1,84 @@
+import math
+# Calculating linear correlation, r
+
+plots = [(0,0.907),
+(0,0.896),
+(1,0.879),
+(2,0.839),
+(2,0.848),
+(2,0.832),
+(3,0.802),
+(3,0.811),
+(4,0.781),
+(5,0.757),
+(5,0.753),
+(6,0.723),
+(6,0.721),
+(7,0.701),
+(7,0.698)]
+n = len(plots)
+x = []
+y = []
+# Storing distances from mean
+x_distance = []
+y_distance = []
+# Separating x and y values
+for point in plots:
+    x.append(float(point[0]))
+    y.append(float(point[1]))
+# Functions contained below, in order: mean, distance from mean, sample variance s2, linear relation coefficient r
+def mean(x_or_y):
+    return sum(x_or_y) / n
+def distance(x_or_y):
+    for val in x_or_y:
+        if x_or_y == x:
+            x_distance.append(val - x_mean)
+        if x_or_y == y:
+            y_distance.append(val - y_mean)
+def sample_variance(x_or_y):
+    # Squaring distances from mean
+    squaringx = []
+    squaringy = []
+    if x_or_y == x:
+        for val in x_distance:
+            squaringx.append(val**2)
+        s2 = sum(squaringx) / (n - 1)
+        return s2
+    if x_or_y == y:
+        for val in y_distance:
+            squaringy.append(val**2)
+        s2 = sum(squaringy) / (n - 1)
+        return s2
+def linear_relation():
+    # Storing distance from mean divided by sample standard deviation
+    dividingx = []
+    dividingy = []
+    # Storing x values multiplied by their corresponding y value
+    multiplying = []
+    for val in x_distance:
+        dividingx.append(val / s_x)
+    for val in y_distance:
+        dividingy.append(val / s_y)
+    for i in range(n):
+        multiplying.append(dividingy[i] * dividingx[i])
+    xy = sum(multiplying)
+    r = xy / (n - 1)
+    return r
+# Referencing
+x_mean = mean(x)
+y_mean = mean(y)
+distance(x)
+distance(y)
+x_variance = sample_variance(x)
+y_variance = sample_variance(y)
+s_x = math.sqrt(x_variance)
+s_y = math.sqrt(y_variance)
+r = linear_relation()
+
+print("r is:", r)
+print(f"Mean of x: {x_mean}")
+print(f"Mean of y: {y_mean}")
+print(f"Sample standard deviation of x: {s_x}")
+print(f"Sample standard deviation of y: {s_y}")
+print(f"Sample variance of x: {x_variance}")
+print(f"Sample variance of y: {y_variance}")
