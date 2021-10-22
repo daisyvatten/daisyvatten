@@ -1,7 +1,18 @@
 import math
 # Calculating linear correlation, r
 
-plots = [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]
+plots = [(3767,19),
+(3987,20),
+(3533,20),
+(3176,24),
+(2585,26),
+(3740,20),
+(2602,26),
+(3771,18),
+(3312,22),
+(2999,26),
+(2755,26),
+(3425,12)]
 n = len(plots)
 x = []
 y = []
@@ -12,7 +23,8 @@ y_distance = []
 for point in plots:
     x.append(float(point[0]))
     y.append(float(point[1]))
-# Functions contained below, in order: mean, distance from mean, sample variance s2, linear correlation coefficient r
+# Functions contained below, in order: mean, distance from mean, sample variance s2,
+# linear correlation coefficient r, five-number summary (included outliers), regression line
 def mean(x_or_y):
     return sum(x_or_y) / n
 def distance(x_or_y):
@@ -35,7 +47,7 @@ def sample_variance(x_or_y):
             squaringy.append(val**2)
         s2 = sum(squaringy) / (n - 1)
         return s2
-def linear_correlation():
+def linear_relation():
     # Storing distance from mean divided by sample standard deviation
     dividingx = []
     dividingy = []
@@ -50,6 +62,39 @@ def linear_correlation():
     xy = sum(multiplying)
     r = xy / (n - 1)
     return r
+# Five-number summary gathering
+def summary(x_or_y):
+    x.sort()
+    y.sort()
+    outliers = []
+    # The number after x/y correlates to which quartile is being calculated
+    x1 = int(n * (1 / 4))
+    y1 = x1 - 1
+    x2 = int(n / 2)
+    y2 = x2 - 1
+    if n % 2 == 1:
+        x2 = int((n - 1) / 2)
+        y2 = x2
+    x3 = int(n * (3/4))
+    y3 = x3 - 1
+    q1 = (x_or_y[x1] + x_or_y[y1]) / 2
+    q2 = (x_or_y[x2] + x_or_y[y2]) / 2
+    q3 = (x_or_y[x3] + x_or_y[y3]) / 2
+    IQR = q3 - q1
+    lower_fence = q1 - (1.5 * IQR)
+    upper_fence = q3 + (1.5 * IQR)
+    # Calculating outliers
+    for too_low in x_or_y:
+        if too_low < lower_fence:
+            outliers.append(too_low)
+    for too_high in x_or_y:
+        if too_high > upper_fence:
+            outliers.append(too_high)
+    return q1, q2, q3, IQR, lower_fence, upper_fence, outliers
+def regression_line():
+    b1 = r * (s_y / s_x)
+    b0 = y_mean - (b1 * x_mean)
+    return f"y_hat = {round(b1, 3)}x + {round(b0, 3)}"
 # Referencing
 x_mean = mean(x)
 y_mean = mean(y)
@@ -59,12 +104,42 @@ x_variance = sample_variance(x)
 y_variance = sample_variance(y)
 s_x = math.sqrt(x_variance)
 s_y = math.sqrt(y_variance)
-r = linear_correlation()
-
-print(f"r is:", {r}")
-print(f"Mean of x: {x_mean}")
-print(f"Mean of y: {y_mean}")
-print(f"Sample standard deviation of x: {s_x}")
-print(f"Sample standard deviation of y: {s_y}")
-print(f"Sample variance of x: {x_variance}")
-print(f"Sample variance of y: {y_variance}")
+r = linear_relation()
+R2 = r**2
+Q1 = summary(x)[0]
+median = summary(x)[1]
+Q3 = summary(x)[2]
+IQR = summary(x)[3]
+x_lower_fence = summary(x)[4]
+x_upper_fence = summary(x)[5]
+x_outliers = summary(x)[6]
+y_lower_fence = summary(y)[4]
+y_upper_fence = summary(y)[5]
+y_outliers = summary(y)[6]
+minimum = x[0]
+maximum = x[-1]
+regression_line = regression_line()
+# Printing results
+print()
+print(f"Five-number summary: {minimum} | {Q1} | {median} | {Q3} | {maximum}")
+print(f"r is {round(r, 3)}\n"
+      f"R^2 is {round(R2, 3)}\n"
+      f"The regression line is {regression_line}")
+print()
+print(f"Stats for the explanatory variable:\n"
+      f"A normal range would be between {x_lower_fence} and {x_upper_fence}\n"
+      f"Mean: {round(x_mean, 3)}\n"
+      f"Sample standard deviation: {round(s_x, 3)}\n"
+      f"Sample variance: {round(x_variance, 3)}")
+if len(x_outliers) > 0:
+    print(f"Outliers found: {x_outliers}")
+else: print(f"No outliers were found.")
+print()
+print(f"Stats for the response variable:\n"
+      f"A normal range would be between {y_lower_fence} and {y_upper_fence}\n"
+      f"Mean: {round(y_mean, 3)}\n"
+      f"Sample standard deviation: {round(s_y, 3)}\n"
+      f"Sample variance: {round(y_variance, 3)}")
+if len(y_outliers) > 0:
+    print(f"Outliers found: {y_outliers}")
+else: print(f"No outliers were found.")
