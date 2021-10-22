@@ -1,5 +1,4 @@
 import math
-# Calculating linear correlation, r
 
 plots = [(3767,19),
 (3987,20),
