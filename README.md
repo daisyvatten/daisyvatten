@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @daisyvatten
-- 👀 I’m interested in ... MACHINE LEARNING
-- 🌱 I’m currently learning ... NETWORKING
-- 💞️ I’m looking to collaborate on ... STATISTICS
+- 👀 I’m interested in ... Network scripting
+- 🌱 I’m currently learning ... Networking
+- 💞️ I’m looking to collaborate on ... Python
 
 <!---
 daisyvatten/daisyvatten is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
